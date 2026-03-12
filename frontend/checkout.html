@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Checkout - Mini Pops Ice Cream</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🍦 Checkout</h1>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="cart.html">Cart</a>
+</nav>
+
+</header>
+
+
+<section class="products">
+
+<h2>Enter Your Details</h2>
+
+<input type="text" id="name" placeholder="Your Name"><br><br>
+
+<input type="text" id="phone" placeholder="Phone Number"><br><br>
+
+<textarea id="address" placeholder="Delivery Address"></textarea><br><br>
+
+<button onclick="placeOrder()">Place Order</button>
+
+</section>
+
+
+<footer>
+
+<p>© 2026 Mini Pops Ice Cream Shop</p>
+
+</footer>
+
+
+<script>
+
+function placeOrder(){
+
+let name = document.getElementById("name").value
+let phone = document.getElementById("phone").value
+let address = document.getElementById("address").value
+
+let cart = JSON.parse(localStorage.getItem("cart")) || []
+
+let total = 0
+
+cart.forEach(item=>{
+total += item.price * item.qty
+})
+
+fetch("http://localhost:5000/order",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+name:name,
+phone:phone,
+address:address,
+total:total,
+items:cart
+})
+
+})
+
+.then(res=>res.text())
+.then(data=>{
+
+alert("Order placed successfully 🍦")
+
+localStorage.removeItem("cart")
+
+window.location="payment.html"
+
+})
+
+}
+
+</script>
+
+</body>
+
+</html>

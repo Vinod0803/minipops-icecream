@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Orders Dashboard</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>📦 Orders Dashboard</h1>
+
+<nav>
+<a href="dashboard.html">Products</a>
+</nav>
+
+</header>
+
+
+<section class="products">
+
+<h2>Customer Orders</h2>
+
+<div id="ordersList"></div>
+
+</section>
+
+
+<script>
+if(localStorage.getItem("admin")!="true"){
+
+window.location="login.html"
+
+}
+
+fetch("http://localhost:5000/orders")
+.then(res=>res.json())
+.then(data=>{
+
+let html=""
+
+data.forEach(order=>{
+
+html += `
+
+<div class="product">
+
+<h3>Order #${order.id}</h3>
+
+<p><b>Name:</b> ${order.name}</p>
+
+<p><b>Phone:</b> ${order.phone}</p>
+
+<p><b>Address:</b> ${order.address}</p>
+
+<p><b>Total:</b> ₹${order.total}</p>
+
+<p>Status: ${order.status}</p>
+
+<select onchange="updateStatus(${order.id},this.value)">
+<option>Pending</option>
+<option>Preparing</option>
+<option>Out for Delivery</option>
+<option>Delivered</option>
+</select>
+
+</div>
+
+`
+})
+
+document.getElementById("ordersList").innerHTML = html
+
+})
+function updateStatus(id,status){
+
+fetch("http://localhost:5000/update-order/"+id,{
+
+method:"PUT",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({status:status})
+
+})
+.then(res=>res.text())
+.then(data=>{
+
+alert("Order Status Updated")
+
+})
+
+}
+
+</script>
+
+</body>
+
+</html>

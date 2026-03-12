@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Mini Pops Ice Cream - Bill</title>
+
+<style>
+
+body{
+font-family:Arial;
+text-align:center;
+}
+
+.bill{
+border:1px solid black;
+padding:20px;
+width:300px;
+margin:auto;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="bill">
+
+<h2>🍦 Mini Pops Ice Cream</h2>
+
+<p id="date"></p>
+
+<div id="items"></div>
+
+<h3 id="total"></h3>
+
+<button onclick="window.print()">Print Bill</button>
+
+</div>
+
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || []
+
+let html=""
+let total=0
+
+cart.forEach(item=>{
+
+total += item.price * item.qty
+
+html += `
+<p>${item.name} x${item.qty} - ₹${item.price*item.qty}</p>
+`
+
+})
+
+document.getElementById("items").innerHTML = html
+
+document.getElementById("total").innerText = "Total: ₹"+total
+
+document.getElementById("date").innerText = new Date().toLocaleString()
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin Dashboard</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🧑‍💼 Admin Dashboard</h1>
+
+<nav>
+<a href="../index.html">Website</a>
+<a href="orders.html">Orders</a>
+<a href="analytics.html">Analytics</a>
+</nav>
+
+</header>
+
+
+<section class="products">
+
+<h2>Add Ice Cream</h2>
+
+<input type="text" id="name" placeholder="Ice Cream Name"><br><br>
+
+<input type="number" id="price" placeholder="Price"><br><br>
+<input type="text" id="category" placeholder="Category"><br><br>
+
+<input type="text" id="image"><br><br>
+
+<input type="number" id="stock" placeholder="Stock"><br><br>
+
+<button onclick="addProduct()">Add Product</button>
+
+</section>
+<h2>Edit Product</h2>
+
+<input type="hidden" id="editId">
+
+<input type="text" id="editName" placeholder="Name"><br><br>
+
+<input type="number" id="editPrice" placeholder="Price"><br><br>
+
+<input type="text" id="editImage" placeholder="Image URL"><br><br>
+
+<input type="number" id="editStock" placeholder="Stock"><br><br>
+
+<button onclick="updateProduct()">Update Product</button>
+
+
+<section class="products">
+
+<h2>All Products</h2>
+
+<div id="productList"></div>
+
+</section>
+
+
+<script>
+
+
+if(localStorage.getItem("admin")!="true"){
+
+window.location="login.html"
+
+}
+
+// Load products
+
+fetch("http://localhost:5000/products")
+.then(res => res.json())
+.then(data => {
+
+let html = ""
+
+data.forEach(p => {
+
+html += `
+
+<div class="product">
+
+<img src="${p.image}" width="100">
+
+<h3>${p.name}</h3>
+
+<p>₹${p.price}</p>
+
+<p>Stock: ${p.stock}</p>
+<button onclick="editProduct(${p.id},'${p.name}',${p.price},'${p.image}',${p.stock})">
+Edit
+</button>
+<button onclick="deleteProduct(${p.id})">Delete</button>
+
+</div>
+
+`
+
+})
+
+document.getElementById("productList").innerHTML = html
+
+})
+
+function editProduct(id,name,price,image,stock){
+
+document.getElementById("editId").value=id
+document.getElementById("editName").value=name
+document.getElementById("editPrice").value=price
+document.getElementById("editImage").value=image
+document.getElementById("editStock").value=stock
+
+}
+
+
+function updateProduct(){
+
+let id = document.getElementById("editId").value
+let name = document.getElementById("editName").value
+let price = document.getElementById("editPrice").value
+let image = document.getElementById("editImage").value
+let stock = document.getElementById("editStock").value
+
+fetch("http://localhost:5000/update-product/"+id,{
+
+method:"PUT",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+name:name,
+price:price,
+image:image,
+stock:stock
+})
+
+})
+
+.then(res=>res.text())
+.then(data=>{
+
+alert("Product Updated")
+
+location.reload()
+
+})
+
+}
+
+// Add product
+
+function addProduct(){
+
+let name = document.getElementById("name").value
+let price = document.getElementById("price").value
+let category = document.getElementById("category").value
+let stock = document.getElementById("stock").value
+
+let file = document.getElementById("image").files[0]
+
+let formData = new FormData()
+
+formData.append("image",file)
+
+fetch("http://localhost:5000/upload",{
+
+method:"POST",
+body:formData
+
+})
+.then(res=>res.json())
+.then(data=>{
+
+let imagePath = data.image
+
+fetch("http://localhost:5000/add-product",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+name:name,
+price:price,
+image:imagePath,
+stock:stock,
+category:category
+})
+
+})
+
+})
+
+}
+function deleteProduct(id){
+
+fetch("http://localhost:5000/delete-product/"+id,{
+method:"DELETE"
+})
+.then(res=>res.text())
+.then(data=>{
+
+alert("Product Deleted")
+
+location.reload()
+
+})
+
+}
+
+</script>
+
+</body>
+
+</html>

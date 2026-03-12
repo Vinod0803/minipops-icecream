@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Mini Pops Ice Cream POS</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🍦 Mini Pops Ice Cream POS</h1>
+
+</header>
+
+<section class="products">
+
+<h2>Select Ice Cream</h2>
+
+<div id="products"></div>
+
+<h3 id="total"></h3>
+
+<button onclick="printBill()">Print Bill</button>
+
+</section>
+
+<script>
+
+let cart=[]
+let total=0
+
+fetch("http://localhost:5000/products")
+.then(res=>res.json())
+.then(data=>{
+
+let html=""
+
+data.forEach(p=>{
+
+html += `
+
+<div class="product">
+
+<h3>${p.name}</h3>
+
+<p>₹${p.price}</p>
+
+<button onclick="addItem('${p.name}',${p.price})">
+Add
+</button>
+
+</div>
+
+`
+
+})
+
+document.getElementById("products").innerHTML = html
+
+})
+
+
+function addItem(name,price){
+
+cart.push({name:name,price:price})
+
+total += price
+
+document.getElementById("total").innerText="Total: ₹"+total
+
+}
+
+
+function printBill(){
+
+let bill = "Mini Pops Ice Cream\n\n"
+
+cart.forEach(item=>{
+bill += item.name+" - ₹"+item.price+"\n"
+})
+
+bill += "\nTotal: ₹"+total
+
+alert(bill)
+
+window.print()
+
+}
+
+</script>
+
+</body>
+
+</html>

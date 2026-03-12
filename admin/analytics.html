@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Admin Analytics</title>
+
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>📊 Sales Dashboard</h1>
+
+<nav>
+<a href="dashboard.html">Products</a>
+<a href="orders.html">Orders</a>
+</nav>
+
+</header>
+
+<section class="products">
+
+<h2>Shop Statistics</h2>
+
+<div id="stats"></div>
+
+</section>
+
+<script>
+if(localStorage.getItem("admin")!="true"){
+
+window.location="login.html"
+
+}
+
+fetch("http://localhost:5000/analytics")
+.then(res=>res.json())
+.then(data=>{
+
+let html = `
+
+<div class="product">
+<h3>Total Orders</h3>
+<p>${data.orders}</p>
+</div>
+
+<div class="product">
+<h3>Total Revenue</h3>
+<p>₹${data.revenue}</p>
+</div>
+
+<div class="product">
+<h3>Total Products</h3>
+<p>${data.products}</p>
+</div>
+
+`
+
+document.getElementById("stats").innerHTML = html
+
+})
+
+</script>
+
+</body>
+
+</html>

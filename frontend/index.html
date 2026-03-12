@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Mini Pops Ice Cream</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+<div id="loader">
+🍦 Mini Pops Ice Cream
+</div>
+<header>
+<img src="images/logo.png" width="60">
+<h1>🍦 Mini Pops Ice Cream</h1>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="cart.html">Cart</a>
+<a href="location.html">Location</a>
+<a href="contact.html">Contact</a>
+<a href="order-history.html">My Orders</a>
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<h2>Fresh & Delicious Ice Creams</h2>
+<p>Choose your favorite mini pops</p>
+
+</section>
+<div class="categories">
+
+<button onclick="filterCategory('all')">All</button>
+<button onclick="filterCategory('Popsicles')">Popsicles</button>
+<button onclick="filterCategory('Kulfi')">Kulfi</button>
+<button onclick="filterCategory('Family Packs')">Family Packs</button>
+
+</div>
+
+<section class="products">
+
+<h2>Our Ice Creams</h2>
+<input type="text" id="searchBox" placeholder="Search Ice Cream..."
+onkeyup="searchProducts()">
+
+<div id="productsContainer"></div>
+
+</section>
+
+
+<footer>
+
+<p>© 2026 Mini Pops Ice Cream</p>
+
+<p>Nellore, Andhra Pradesh</p>
+
+<p>UPI: vinnu0313@ptaxis</p>
+
+</footer>
+
+<script src="js/products.js"></script>
+<script>
+
+window.onload = function(){
+
+document.getElementById("loader").style.display="none"
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Cart - Mini Pops Ice Cream</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🛒 Your Cart</h1>
+
+<nav>
+<a href="index.html">Home</a>
+</nav>
+
+</header>
+
+
+<section class="products">
+
+<h2>Selected Ice Creams</h2>
+
+<div id="cartItems"></div>
+
+<h3 id="totalPrice"></h3>
+
+<button onclick="checkout()">Proceed to Checkout</button>
+
+</section>
+
+
+<footer>
+
+<p>© 2026 Mini Pops Ice Cream Shop</p>
+
+</footer>
+
+
+<script>
+
+let cart = JSON.parse(localStorage.getItem("cart")) || []
+
+let container = document.getElementById("cartItems")
+
+let total = 0
+
+let html = ""
+
+cart.forEach(item => {
+
+total += item.price * item.qty
+
+html += `
+
+<div class="product">
+
+<h3>${item.name}</h3>
+
+<p>Price: ₹${item.price}</p>
+
+<p>Qty: ${item.qty}</p>
+
+</div>
+
+`
+
+})
+
+container.innerHTML = html
+
+document.getElementById("totalPrice").innerText = "Total: ₹" + total
+
+
+function checkout(){
+
+window.location = "checkout.html"
+
+}
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>UPI Payment - Mini Pops Ice Cream</title>
+
+<style>
+
+body{
+text-align:center;
+font-family:Arial;
+background:#fff5f8;
+}
+
+.payment{
+margin-top:40px;
+}
+
+button{
+padding:10px 20px;
+background:#ff4da6;
+color:white;
+border:none;
+font-size:16px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🍦 Mini Pops Ice Cream</h1>
+
+<div class="payment">
+
+<h2>Pay with UPI</h2>
+
+<p>UPI ID: vinnu0313@ptaxis</p>
+
+<a href="upi://pay?pa=vinnu0313@ptaxis&pn=Mini%20Pops%20Ice%20Cream&cu=INR">
+
+<button>Pay Now</button>
+
+</a>
+
+<br><br>
+
+<p>After payment click confirm</p>
+
+<button onclick="confirmPayment()">
+Payment Done
+</button>
+
+</div>
+
+
+<script>
+
+function confirmPayment(){
+
+alert("Payment Received!")
+
+window.location="order-history.html"
+
+}
+
+</script>
+
+</body>
+
+</html>

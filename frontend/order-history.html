@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>My Orders - Mini Pops Ice Cream</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>📦 My Orders</h1>
+
+<nav>
+<a href="index.html">Home</a>
+</nav>
+
+</header>
+
+
+<section class="products">
+
+<h2>Your Order History</h2>
+
+<div id="ordersList"></div>
+
+</section>
+
+
+<script>
+
+let phone = prompt("Enter your phone number to see orders")
+
+fetch("http://localhost:5000/orders-by-phone/"+phone)
+.then(res=>res.json())
+.then(data=>{
+
+let html=""
+
+data.forEach(order=>{
+
+html += `
+
+<div class="product">
+
+<h3>Order #${order.id}</h3>
+
+<p>Total: ₹${order.total}</p>
+
+<p>Status: ${order.status}</p>
+
+</div>
+
+`
+
+})
+
+document.getElementById("ordersList").innerHTML = html
+
+})
+
+</script>
+
+</body>
+
+</html>
